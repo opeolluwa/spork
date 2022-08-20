@@ -70,8 +70,6 @@ struct ResponseData {
     search_term: String,
     language: String,
     transcription: String,
-    // antonyms: Vec<String>,
-    // synonyms: Vec<String>,
 }
 
 ///Api Response structure
