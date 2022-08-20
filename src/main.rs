@@ -1,4 +1,3 @@
-#![allow(dead_code, unused_variables)]
 /// A wrapper around dictionary API <https://api.dictionaryapi.dev/api/v2/entries/en/>
 /// the request accept incoming request and parse it with the ApiRequest struct
 /// the ApiRequest object can contain the following fields:
@@ -13,23 +12,13 @@ use axum::{
     extract::Json as Request,
     response::IntoResponse,
     routing::{get, post},
-    Json,
-    Router,
+    Json, Router,
 };
 use serde::{Deserialize, Serialize};
 use std::net::SocketAddr;
 
-/// SearchTerm Constructor
-#[derive(Serialize, Deserialize, Debug)]
-struct SearchTerm {
-    keyword: String,
-}
-
-impl SearchTerm {
-    fn new(keyword: String) -> SearchTerm {
-        SearchTerm { keyword }
-    }
-}
+///the base url of the dictionary API
+const DICTIONARY_API: &str = "https://api.dictionaryapi.dev/api/v2/entries";
 
 ///Api Request structure
 #[derive(Debug, Serialize, Deserialize)]
@@ -59,27 +48,27 @@ struct ApiResponse {
 //an handler to receive incoming request
 async fn search(Request(request): Request<ApiRequest>) -> impl IntoResponse {
     //destructure the request
-    let ApiRequest { keyword, language } = request;
-    println!("search for {}", keyword);
-    let data  = ResponseData{
+    let ApiRequest { keyword, language } = &request;
+    let request_url: String = format!("{}/{}/{}", &DICTIONARY_API, language, keyword);
+    println!("{}", request_url);
+
+    let data = ResponseData {
         search_term: keyword.clone(),
-        language: language,
+        language: language.clone(),
         transcription: "some transcription goes here".to_string(),
     };
 
-    let response = ApiResponse{
-        success:true,
+    let response = ApiResponse {
+        success: true,
         message: format!("search result for {}", &keyword),
-        data
+        data,
     };
-Json(response)
+    Json(response)
 }
 
 #[tokio::main]
 async fn main() {
     // build our application and mount the routes
-    let sample_keyword: SearchTerm = SearchTerm::new("rusty".to_string());
-    println!("{:?}", sample_keyword);
     let app = Router::new()
         .route("/", get(|| async { "Hello, World! " }))
         .route("/search", post(search));
