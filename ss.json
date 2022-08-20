@@ -1,7 +1,8 @@
 [{
     "word": "absolute",
     "phonetic": "/ˈæb.səˌljuːt/",
-    "phonetics": [{
+    "phonetics": [
+        {
         "text": "/ˈæb.səˌljuːt/",
         "audio": "https://api.dictionaryapi.dev/media/pronunciations/en/absolute-uk.mp3",
         "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1339183",
@@ -20,7 +21,8 @@
     }],
     "meanings": [{
         "partOfSpeech": "noun",
-        "definitions": [{
+        "definitions": [
+            {
             "definition": "That which is independent of context-dependent interpretation, inviolate, fundamental.",
             "synonyms": [],
             "antonyms": [],

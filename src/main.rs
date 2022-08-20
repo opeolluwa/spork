@@ -27,20 +27,23 @@ struct License {
 #[derive(Debug, Serialize, Deserialize)]
 struct Definition {
     definition: String,
-    synonyms: Vec<String>,
-    antonyms: Vec<String>,
-    examples: String,
+    synonyms: Option<Vec<String>>,
+    antonyms: Option<Vec<String>>,
+    examples: Option<String>,
 }
 #[derive(Debug, Serialize, Deserialize)]
 struct Meaning {
-    partOfSpeech: String,
-    definition: Vec<Definition>,
+    #[serde(rename="partOfSpeech")]
+    part_of_speech: String,
+    definitions: Vec<Definition>,
 }
+
 #[derive(Debug, Serialize, Deserialize)]
 struct Phonetics {
     text: String,
     audio: String,
-    sourceUrl: String,
+    #[serde(rename = "sourceUrl")]
+    source_url: String,
     license: License,
 }
 #[derive(Debug, Serialize, Deserialize)]
