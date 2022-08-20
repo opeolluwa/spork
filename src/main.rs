@@ -19,13 +19,46 @@ use std::net::SocketAddr;
 
 ///the base url of the dictionary API
 const DICTIONARY_API: &str = "https://api.dictionaryapi.dev/api/v2/entries";
-
+#[derive(Debug, Serialize, Deserialize)]
+struct License{
+    name:String,
+    url:String
+}
+#[derive(Debug, Serialize, Deserialize)]
+struct Definition{
+    definition:String,
+    synonyms:Vec<String>,
+    antonyms:Vec<String>,
+    examples:String
+}
+#[derive(Debug, Serialize, Deserialize)]
+struct Meaning{
+    partOfSpeech:String,
+    definition:Vec<Definition>,
+}
+#[derive(Debug, Serialize, Deserialize)]
+struct Phonetics{
+    text:String,
+    audio:String,
+    sourceUrl:String,
+    license:License
+}
+#[derive(Debug, Serialize, Deserialize)]
+struct DictionaryApiResponse{
+    word: String,
+    phonetic: String, 
+    phonetics:Vec<Phonetics>,
+    meanings:Vec<Meaning>,
+    license:License,
+    sourceUrls: Vec<String>
+}
 ///Api Request structure
 #[derive(Debug, Serialize, Deserialize)]
 struct ApiRequest {
     language: String,
     keyword: String,
 }
+
 
 ///API response data structure
 #[derive(Debug, Serialize, Deserialize)]
@@ -49,11 +82,19 @@ struct ApiResponse {
 async fn search(Request(request): Request<ApiRequest>) -> impl IntoResponse {
     //destructure the request
     let ApiRequest { keyword, language } = &request;
-    let dictionary_api_response = reqwest::get(format!("{}/{}/{}", &DICTIONARY_API, language, keyword))
-    .await
-    .unwrap();
-    println!("{:#?}",  dictionary_api_response);
+    let client = reqwest::Client::new();
+    println!("{}/{}/{}", &DICTIONARY_API, language, keyword);
+    let body = client
+        .get("https://api.dictionaryapi.dev/api/v2/entries/en/absolute")
+        .header("CONTENT_TYPE", "application/json")
+        .header("ACCEPT", "application/json")
+        .send()
+        .await
+        .unwrap();
+    //destructure the response
+    println!("{:#?}", body.json::<Vec<DictionaryApiResponse>>().await);
 
+   
     let data = ResponseData {
         search_term: keyword.clone(),
         language: language.clone(),
