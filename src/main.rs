@@ -33,7 +33,7 @@ struct Definition {
 }
 #[derive(Debug, Serialize, Deserialize)]
 struct Meaning {
-    #[serde(rename="partOfSpeech")]
+    #[serde(rename = "partOfSpeech")]
     part_of_speech: String,
     definitions: Vec<Definition>,
 }
@@ -53,7 +53,8 @@ struct DictionaryApiResponse {
     phonetics: Vec<Phonetics>,
     meanings: Vec<Meaning>,
     license: License,
-    sourceUrls: Vec<String>,
+    #[serde(rename = "sourceUrls")]
+    source_urls: Vec<String>,
 }
 ///Api Request structure
 #[derive(Debug, Serialize, Deserialize)]
@@ -77,36 +78,23 @@ struct ResponseData {
 struct ApiResponse {
     success: bool,
     message: String,
-    data: ResponseData,
+    data: Vec<DictionaryApiResponse>,
 }
 
 //an handler to receive incoming request
-async fn search(Request(request): Request<ApiRequest>) -> impl IntoResponse {
+async fn search(Request(request): Request<ApiRequest>) -> Json<DictionaryApiResponse> {
     //destructure the request
     let ApiRequest { keyword, language } = &request;
     let client = reqwest::Client::new();
-    println!("{}/{}/{}", &DICTIONARY_API, language, keyword);
     let body = client
-        .get("https://api.dictionaryapi.dev/api/v2/entries/en/absolute")
+        .get(format!("{}/{}/{}", &DICTIONARY_API, language, keyword))
         .header("CONTENT_TYPE", "application/json")
         .header("ACCEPT", "application/json")
         .send()
         .await
         .unwrap();
     //destructure the response
-    println!("{:#?}", body.json::<Vec<DictionaryApiResponse>>().await);
-
-    let data = ResponseData {
-        search_term: keyword.clone(),
-        language: language.clone(),
-        transcription: "some transcription goes here".to_string(),
-    };
-
-    let response = ApiResponse {
-        success: true,
-        message: format!("search result for {}", &keyword),
-        data,
-    };
+    let response = body.json::<Vec<DictionaryApiResponse>>().await;
     Json(response)
 }
 
