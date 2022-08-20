@@ -11,8 +11,9 @@
 //import axum and other dependencies
 use axum::{
     extract::Json as Request,
-    response::Json as Response,
+    response::IntoResponse,
     routing::{get, post},
+    Json,
     Router,
 };
 use serde::{Deserialize, Serialize};
@@ -56,12 +57,12 @@ struct ApiResponse {
 }
 
 //an handler to receive incoming request
-async fn search(Request(request): Request<ApiRequest>) -> Response<ApiResponse> {
+async fn search(Request(request): Request<ApiRequest>) -> impl IntoResponse {
     //destructure the request
     let ApiRequest { keyword, language } = request;
     println!("search for {}", keyword);
     let data  = ResponseData{
-        search_term: keyword,
+        search_term: keyword.clone(),
         language: language,
         transcription: "some transcription goes here".to_string(),
     };
@@ -71,7 +72,7 @@ async fn search(Request(request): Request<ApiRequest>) -> Response<ApiResponse> 
         message: format!("search result for {}", &keyword),
         data
     };
-    Response(json!(response))
+Json(response)
 }
 
 #[tokio::main]
