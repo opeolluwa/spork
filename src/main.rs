@@ -9,7 +9,11 @@
 /// {"keyword": "axe", "language": "en"}
 ///```
 //import axum and other dependencies
-use axum::{routing::get, Router};
+use axum::{
+    extract::Json,
+    routing::{get, post},
+    Router,
+};
 use serde::{Deserialize, Serialize};
 use std::net::SocketAddr;
 
@@ -41,13 +45,16 @@ struct ApiResponse {
 }
 
 //an handler to receive incoming request
-async fn accept_search_term() {}
+async fn search() {}
 #[tokio::main]
 async fn main() {
-    // build our application with a single route
+
+    // build our application and mount the routes
     let sample_keyword: SearchTerm = SearchTerm::new("rusty".to_string());
     println!("{:?}", sample_keyword);
-    let app = Router::new().route("/", get(|| async { "Hello, World! " }));
+    let app = Router::new()
+        .route("/", get(|| async { "Hello, World! " }))
+        .route("/search", post(search));
 
     // fire up the server
     let ip_address = SocketAddr::from(([127, 0, 0, 1], 3456));
