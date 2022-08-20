@@ -98,7 +98,6 @@ async fn search(Request(request): Request<ApiRequest>) -> impl IntoResponse {
     //try to destructure the response
     let data: std::option::Option<Vec<DictionaryApiResponse>> = data;
     Json(data)
-    // let DictionaryApiResponse { word, phonetic,.. } = data[0];
 }
 
 #[tokio::main]
