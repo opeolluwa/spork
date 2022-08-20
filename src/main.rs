@@ -15,6 +15,7 @@ use axum::{
     Json, Router,
 };
 use serde::{Deserialize, Serialize};
+// use serde_json::{json, Value};
 use std::net::SocketAddr;
 
 ///the base url of the dictionary API
@@ -82,20 +83,18 @@ struct ApiResponse {
 }
 
 //an handler to receive incoming request
-async fn search(Request(request): Request<ApiRequest>) -> Json<DictionaryApiResponse> {
+async fn search(Request(request): Request<ApiRequest>) -> impl IntoResponse {
     //destructure the request
     let ApiRequest { keyword, language } = &request;
-    let client = reqwest::Client::new();
-    let body = client
-        .get(format!("{}/{}/{}", &DICTIONARY_API, language, keyword))
-        .header("CONTENT_TYPE", "application/json")
-        .header("ACCEPT", "application/json")
-        .send()
+    let body = reqwest::get(format!("{}/{}/{}", &DICTIONARY_API, language, keyword))
         .await
         .unwrap();
     //destructure the response
     let response = body.json::<Vec<DictionaryApiResponse>>().await;
-    Json(response)
+    // Json(response)
+    // let response = Json(json!(response));
+    println!("{:?}", response);
+    // let DictionaryApiResponse { word, phonetic,.. } = response[0];
 }
 
 #[tokio::main]
