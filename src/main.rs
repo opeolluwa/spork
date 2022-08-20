@@ -20,37 +20,37 @@ use std::net::SocketAddr;
 ///the base url of the dictionary API
 const DICTIONARY_API: &str = "https://api.dictionaryapi.dev/api/v2/entries";
 #[derive(Debug, Serialize, Deserialize)]
-struct License{
-    name:String,
-    url:String
+struct License {
+    name: String,
+    url: String,
 }
 #[derive(Debug, Serialize, Deserialize)]
-struct Definition{
-    definition:String,
-    synonyms:Vec<String>,
-    antonyms:Vec<String>,
-    examples:String
+struct Definition {
+    definition: String,
+    synonyms: Vec<String>,
+    antonyms: Vec<String>,
+    examples: String,
 }
 #[derive(Debug, Serialize, Deserialize)]
-struct Meaning{
-    partOfSpeech:String,
-    definition:Vec<Definition>,
+struct Meaning {
+    partOfSpeech: String,
+    definition: Vec<Definition>,
 }
 #[derive(Debug, Serialize, Deserialize)]
-struct Phonetics{
-    text:String,
-    audio:String,
-    sourceUrl:String,
-    license:License
+struct Phonetics {
+    text: String,
+    audio: String,
+    sourceUrl: String,
+    license: License,
 }
 #[derive(Debug, Serialize, Deserialize)]
-struct DictionaryApiResponse{
+struct DictionaryApiResponse {
     word: String,
-    phonetic: String, 
-    phonetics:Vec<Phonetics>,
-    meanings:Vec<Meaning>,
-    license:License,
-    sourceUrls: Vec<String>
+    phonetic: String,
+    phonetics: Vec<Phonetics>,
+    meanings: Vec<Meaning>,
+    license: License,
+    sourceUrls: Vec<String>,
 }
 ///Api Request structure
 #[derive(Debug, Serialize, Deserialize)]
@@ -58,7 +58,6 @@ struct ApiRequest {
     language: String,
     keyword: String,
 }
-
 
 ///API response data structure
 #[derive(Debug, Serialize, Deserialize)]
@@ -94,7 +93,6 @@ async fn search(Request(request): Request<ApiRequest>) -> impl IntoResponse {
     //destructure the response
     println!("{:#?}", body.json::<Vec<DictionaryApiResponse>>().await);
 
-   
     let data = ResponseData {
         search_term: keyword.clone(),
         language: language.clone(),

@@ -1,7 +1,6 @@
-
 [{
-    "word": String,
-    "phonetic": String,
+    "word": "absolute",
+    "phonetic": "/ˈæb.səˌljuːt/",
     "phonetics": [{
         "text": "/ˈæb.səˌljuːt/",
         "audio": "https://api.dictionaryapi.dev/media/pronunciations/en/absolute-uk.mp3",
