@@ -89,12 +89,16 @@ async fn search(Request(request): Request<ApiRequest>) -> impl IntoResponse {
     let body = reqwest::get(format!("{}/{}/{}", &DICTIONARY_API, language, keyword))
         .await
         .unwrap();
-    //destructure the response
-    let response = body.json::<Vec<DictionaryApiResponse>>().await;
-    // Json(response)
-    // let response = Json(json!(response));
-    println!("{:?}", response);
-    // let DictionaryApiResponse { word, phonetic,.. } = response[0];
+
+    //error handling
+    let data = match body.json::<Vec<DictionaryApiResponse>>().await {
+        Ok(val) => Some(val),
+        _ => None,
+    };
+    //try to destructure the response
+    let data: std::option::Option<Vec<DictionaryApiResponse>> = data;
+    Json(data)
+    // let DictionaryApiResponse { word, phonetic,.. } = data[0];
 }
 
 #[tokio::main]
