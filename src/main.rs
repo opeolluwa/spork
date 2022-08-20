@@ -45,10 +45,14 @@ struct ApiResponse {
 }
 
 //an handler to receive incoming request
-async fn search() {}
+async fn search(Json(request): Json<ApiRequest>) {
+    //destructure the request
+    let ApiRequest { keyword, language } = request;
+    println!("search for {}", keyword);
+}
+
 #[tokio::main]
 async fn main() {
-
     // build our application and mount the routes
     let sample_keyword: SearchTerm = SearchTerm::new("rusty".to_string());
     println!("{:?}", sample_keyword);
