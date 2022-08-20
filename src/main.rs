@@ -15,7 +15,6 @@ use axum::{
     Json, Router,
 };
 use serde::{Deserialize, Serialize};
-// use serde_json::{json, Value};
 use std::net::SocketAddr;
 
 ///the base url of the dictionary API
