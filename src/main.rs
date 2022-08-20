@@ -10,7 +10,8 @@
 ///```
 //import axum and other dependencies
 use axum::{
-    extract::Json,
+    extract::Json as Request,
+    response::Json as Response,
     routing::{get, post},
     Router,
 };
@@ -36,19 +37,41 @@ struct ApiRequest {
     keyword: String,
 }
 
-///Api Response structure
-struct ApiResponse {
+///API response data structure
+#[derive(Debug, Serialize, Deserialize)]
+struct ResponseData {
     search_term: String,
+    language: String,
     transcription: String,
-    antonyms: Vec<String>,
-    synonyms: Vec<String>,
+    // antonyms: Vec<String>,
+    // synonyms: Vec<String>,
+}
+
+///Api Response structure
+#[derive(Debug, Serialize, Deserialize)]
+struct ApiResponse {
+    success: bool,
+    message: String,
+    data: ResponseData,
 }
 
 //an handler to receive incoming request
-async fn search(Json(request): Json<ApiRequest>) {
+async fn search(Request(request): Request<ApiRequest>) -> Response<ApiResponse> {
     //destructure the request
     let ApiRequest { keyword, language } = request;
     println!("search for {}", keyword);
+    let data  = ResponseData{
+        search_term: keyword,
+        language: language,
+        transcription: "some transcription goes here".to_string(),
+    };
+
+    let response = ApiResponse{
+        success:true,
+        message: format!("search result for {}", &keyword),
+        data
+    };
+    Response(json!(response))
 }
 
 #[tokio::main]
