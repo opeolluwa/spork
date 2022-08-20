@@ -49,8 +49,10 @@ struct ApiResponse {
 async fn search(Request(request): Request<ApiRequest>) -> impl IntoResponse {
     //destructure the request
     let ApiRequest { keyword, language } = &request;
-    let request_url: String = format!("{}/{}/{}", &DICTIONARY_API, language, keyword);
-    println!("{}", request_url);
+    let dictionary_api_response = reqwest::get(format!("{}/{}/{}", &DICTIONARY_API, language, keyword))
+    .await
+    .unwrap();
+    println!("{:#?}",  dictionary_api_response);
 
     let data = ResponseData {
         search_term: keyword.clone(),
