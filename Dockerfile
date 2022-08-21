@@ -1,19 +1,25 @@
-FROM rust:1.60 as build
+FROM rust:1.62.0 as builder
+RUN cargo new --bin spork
+WORKDIR /app
 
-RUN USER=root cargo new --bin spork
-WORKDIR /spork
-
+# FROM rust:1 as builder
 COPY ./Cargo.lock ./Cargo.lock
 COPY ./Cargo.toml ./Cargo.toml
 RUN cargo build --release
 
 RUN rm src/*.rs
-COPY ./src ./src
+COPY . .
+RUN cargo install --path .
+
 
 RUN rm ./target/release/deps/spork*
 RUN cargo build --release
 
-FROM debian:buster-slim
-COPY --from=build /spork/target/release/spork .
+FROM debian:buster-slim as runner
+WORKDIR /app
+COPY --from=builder /usr/local/cargo/bin/spork /app/spork
+COPY --from=builder /app/views /app/views
+COPY --from=builder /app/*.toml /app/
 
-CMD ["./spork"]
+EXPOSE 3456
+CMD ["/app/spork"]

@@ -3,8 +3,12 @@ name = "spork"
 description = "minimal dictionary api"
 version = "0.1.0"
 edition = "2021"
-
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[[bin]]
+name = "spork"
+path = "src/main.rs"
+
 
 [dependencies]
 axum = "0.5.15"

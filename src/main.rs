@@ -123,7 +123,12 @@ async fn main() {
         // .route("/", get(index))
         .route("/api/search/", post(search));
     // fire up the server
-    let ip_address = SocketAddr::from(([127, 0, 0, 1], 3456));
+       let port = std::env::var("PORT")
+        .ok()
+        .and_then(|s| s.parse().ok())
+        .unwrap_or(3456);
+
+    let ip_address = SocketAddr::from(([0, 0, 0, 0], port));
     println!("Ignition started on http://{}", ip_address);
     axum::Server::bind(&ip_address)
         .serve(app.into_make_service())

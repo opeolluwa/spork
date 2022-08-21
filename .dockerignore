@@ -1,0 +1,8 @@
+./target
+./sandbox
+.vscode
+*.sh
+
+./LICENSE
+./Procfile
+./README.md
