@@ -10,7 +10,7 @@
 //import axum and other dependencies
 use axum::{
     extract::Json as Request,
-    response::IntoResponse,
+    response::{Html, IntoResponse},
     routing::{get, post},
     Json, Router,
 };
@@ -59,7 +59,7 @@ struct DictionaryApiResponse {
 ///Api Request structure
 #[derive(Debug, Serialize, Deserialize)]
 struct ApiRequest {
-    language: String,
+    // language: String,
     keyword: String,
 }
 
@@ -82,11 +82,11 @@ struct ApiResponse {
 //an handler to receive incoming request
 async fn search(Request(request): Request<ApiRequest>) -> impl IntoResponse {
     //destructure the request
-    let ApiRequest { keyword, language } = &request;
-    let body = reqwest::get(format!("{}/{}/{}", &DICTIONARY_API, language, keyword))
+    let ApiRequest { keyword } = &request;
+    let body = reqwest::get(format!("{}/{}/{}", &DICTIONARY_API, "en", keyword))
         .await
         .unwrap();
-
+println!("{}", &keyword);
     //error handling
     let data = match body.json::<Vec<DictionaryApiResponse>>().await {
         Ok(val) => Some(val),
@@ -97,13 +97,18 @@ async fn search(Request(request): Request<ApiRequest>) -> impl IntoResponse {
     Json(data)
 }
 
+//the index route
+// Include utf-8 file at **compile** time.
+async fn index() -> Html<&'static str> {
+    Html(std::include_str!("../views/index.html"))
+}
+
 #[tokio::main]
 async fn main() {
     // build our application and mount the routes
     let app = Router::new()
-        .route("/", get(|| async { "Hello, World! " }))
-        .route("/search", post(search));
-
+        .route("/", get(index))
+        .route("/api/search/", post(search));
     // fire up the server
     let ip_address = SocketAddr::from(([127, 0, 0, 1], 3456));
     println!("Ignition started on http://{}", ip_address);
@@ -112,3 +117,15 @@ async fn main() {
         .await
         .unwrap();
 }
+
+// font-family: 'Fira Sans', sans-serif;
+
+// font-family: 'Mulish', sans-serif;
+
+// font-family: 'Nunito', sans-serif;
+
+// font-family: 'Open Sans', sans-serif;
+
+// font-family: 'Poppins', sans-serif;
+
+// font-family: 'Raleway', sans-serif;
