@@ -10,13 +10,14 @@
 //import axum and other dependencies
 use axum::{
     extract::Json as Request,
+    http::StatusCode,
     response::{Html, IntoResponse},
-    routing::{get, post},
+    routing::{get, get_service, post},
     Json, Router,
 };
 use serde::{Deserialize, Serialize};
-use std::net::SocketAddr;
-
+use std::{net::SocketAddr, path::PathBuf};
+use tower_http::services::ServeDir;
 ///the base url of the dictionary API
 const DICTIONARY_API: &str = "https://api.dictionaryapi.dev/api/v2/entries";
 #[derive(Debug, Serialize, Deserialize)]
@@ -104,9 +105,22 @@ async fn index() -> Html<&'static str> {
 
 #[tokio::main]
 async fn main() {
+    //static file mounting
+    let assets_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("views");
+    let static_files_service = get_service(
+        ServeDir::new(assets_dir).append_index_html_on_directories(true),
+    )
+    .handle_error(|error: std::io::Error| async move {
+        (
+            StatusCode::INTERNAL_SERVER_ERROR,
+            format!("Unhandled internal error: {}", error),
+        )
+    });
+
     // build our application and mount the routes
     let app = Router::new()
-        .route("/", get(index))
+        .fallback(static_files_service)
+        // .route("/", get(index))
         .route("/api/search/", post(search));
     // fire up the server
     let ip_address = SocketAddr::from(([127, 0, 0, 1], 3456));

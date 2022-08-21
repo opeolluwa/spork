@@ -1,0 +1,225 @@
+html,
+body {
+    font-family: "Fira Sans", sans-serif;
+    font-family: "Mulish", sans-serif;
+    font-family: "Nunito", sans-serif;
+    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
+    font-family: "Raleway", sans-serif;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
+
+#app {
+    width: 80%;
+    margin: 20px auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#app>* {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+}
+
+#app h1,
+#app h1+P {
+    text-align: center;
+}
+
+#app h1 {
+    margin-bottom: 6px;
+}
+
+#app h1+p {
+    margin-top: 2px;
+    margin-bottom: 35px;
+}
+
+form .form-group {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    align-items: center;
+    border: 1px solid #101010;
+    border-radius: 5px;
+    transition: all 250ms ease-in-out;
+    width: 50%;
+
+}
+
+form input,
+form button {
+    padding: 9px 12px;
+    font-family: "poppins";
+    border: none;
+    background-color: transparent;
+}
+
+form input {
+    border-radius: 5px 0 0 5px;
+    border-style: 2px solid transparent;
+    border-right: 2px solid #660066;
+}
+
+form button {
+    border-radius: 0 5px 5px 0;
+    background-color: #660066;
+    color: #f2f2f2;
+    cursor: pointer;
+}
+
+form input:focus,
+form button:focus {
+    outline: none;
+    border: none
+}
+
+form button:hover {
+    background-color: #f2f2f2;
+    color: #660066;
+}
+
+form input ::placeholder {
+    color: #e293e2;
+    font-style: italic;
+}
+
+.error {
+    color: rgb(245, 38, 38);
+    font-weight: 300;
+    font-family: "raleway";
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 90%;
+}
+
+.lds-roller {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin: auto;
+}
+
+.lds-roller div {
+    animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    transform-origin: 40px 40px;
+}
+
+.lds-roller div:after {
+    content: " ";
+    display: block;
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #660066;
+    margin: -4px 0 0 -4px;
+}
+
+.lds-roller div:nth-child(1) {
+    animation-delay: -0.036s;
+}
+
+.lds-roller div:nth-child(1):after {
+    top: 63px;
+    left: 63px;
+}
+
+.lds-roller div:nth-child(2) {
+    animation-delay: -0.072s;
+}
+
+.lds-roller div:nth-child(2):after {
+    top: 68px;
+    left: 56px;
+}
+
+.lds-roller div:nth-child(3) {
+    animation-delay: -0.108s;
+}
+
+.lds-roller div:nth-child(3):after {
+    top: 71px;
+    left: 48px;
+}
+
+.lds-roller div:nth-child(4) {
+    animation-delay: -0.144s;
+}
+
+.lds-roller div:nth-child(4):after {
+    top: 72px;
+    left: 40px;
+}
+
+.lds-roller div:nth-child(5) {
+    animation-delay: -0.18s;
+}
+
+.lds-roller div:nth-child(5):after {
+    top: 71px;
+    left: 32px;
+}
+
+.lds-roller div:nth-child(6) {
+    animation-delay: -0.216s;
+}
+
+.lds-roller div:nth-child(6):after {
+    top: 68px;
+    left: 24px;
+}
+
+.lds-roller div:nth-child(7) {
+    animation-delay: -0.252s;
+}
+
+.lds-roller div:nth-child(7):after {
+    top: 63px;
+    left: 17px;
+}
+
+.lds-roller div:nth-child(8) {
+    animation-delay: -0.288s;
+}
+
+.lds-roller div:nth-child(8):after {
+    top: 56px;
+    left: 12px;
+}
+
+@keyframes lds-roller {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+#response svg {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    padding: 7.5px;
+    border-radius: 50%;
+    border: 2px solid #101010;
+}
+
+#response #word {
+    display: inline-flex;
+    align-items: center;
+    column-gap: 7.5px;
+}
