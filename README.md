@@ -22,17 +22,19 @@ The Following dependencies are required to run the application (in development m
 
 ## Installation
 
-    ```bash
+```bash
     #clone the project
     git clone https://github.com/opeolluwa/spork
     #navigate to the cloned project
     cd spork
     # start the server  with cargo watch
     cargo watch -x run
-    ```
+
+```
 
 ## Compilation
-Execute the following command to build application for production  using [Cargo](https://doc.rust-lang.org/cargo/):
+
+Execute the following command to build application for production using [Cargo](https://doc.rust-lang.org/cargo/):
 
 ```bash
 cargo run build
