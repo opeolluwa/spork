@@ -23,17 +23,24 @@ createApp({
                     return
                 }
                 const response = await axios.post("/api/search", { keyword: keyword.trim() })
-                console.log(JSON.stringify(response))
-                if (response) {
+                if (response && response.data) {
                     this.loading = false;
                     this.response = response.data[0];
                     return;
                 }
 
+                //in no response
+                if (response && !response.data) {
+                    this.loading = false;
+                    this.hasError = true;
+                    this.errorMessage = "No response from server"
+                    return;
+                }
             }
             catch (error) {
-                this.errorMessage = error.response.data.message
-                return
+                console.log(error)
+               /*  this.errorMessage = error.response.data.message
+                return */
             }
         },
     },

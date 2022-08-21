@@ -225,3 +225,11 @@ form input ::placeholder {
 #response p {
     max-width: 69%;
 }
+
+li.meaning{
+    margin-bottom: 35px;
+}
+
+ li.definition {
+    margin-bottom: 15px;
+}

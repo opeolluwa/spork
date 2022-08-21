@@ -1,46 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dictionary App</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;1,200;1,300&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;1,200;1,300;1,400&family=Open+Sans:ital,wght@0,500;0,600;0,800;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:wght@100;200;300;400;500;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div id="app" class="container">
-        <h1>Dictionary App </h1>
-        <p>Definitions from <a href="https://dictionaryapi.dev/">Free Dictionary API</a></p>
-        <form  @submit.prevent="search">
-           <div class="form-group">
-            <input type="text" name="word" placeholder="Search for a word" v-model="keyword" >
-            <svg class="search" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="grey" class="bi bi-search" viewBox="0 0 16 16">
-              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-            </svg>
-           </div>
-        </form>
-        <div  id="response" v-if="response">
-              <h2 id="word">{{word}}  <svg xmlns="http://www.w3.org/2000/svg" id="speaker" width="50" height="50" fill="currentColor" class="bi bi-volume-up" viewBox="0 0 16 16">
-                <path d="M11.536 14.01A8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707A7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z"/>
-                <path d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.483 5.483 0 0 1 11.025 8a5.483 5.483 0 0 1-1.61 3.89l.706.706z"/>
-                <path d="M10.025 8a4.486 4.486 0 0 1-1.318 3.182L8 10.475A3.489 3.489 0 0 0 9.025 8c0-.966-.392-1.841-1.025-2.475l.707-.707A4.486 4.486 0 0 1 10.025 8zM7 4a.5.5 0 0 0-.812-.39L3.825 5.5H1.5A.5.5 0 0 0 1 6v4a.5.5 0 0 0 .5.5h2.325l2.363 1.89A.5.5 0 0 0 7 12V4zM4.312 6.39 6 5.04v5.92L4.312 9.61A.5.5 0 0 0 4 9.5H2v-3h2a.5.5 0 0 0 .312-.11z"/>
-              </svg></h2>
-              <em style="display: block;">{{phonetic}}</em>
-              <p>{{meanings[0].definitions[0].definition}}</p>
-             
-        </div>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dictionary App</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;1,200;1,300&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;1,200;1,300;1,400&family=Open+Sans:ital,wght@0,500;0,600;0,800;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:wght@100;200;300;400;500;700;900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            <h1>Dictionary App </h1>
+            <p>Definitions from <a href="https://dictionaryapi.dev/">Free Dictionary API</a></p>
+            <form  @submit.prevent="search">
+                <div class="form-group">
+                    <input type="text" name="word" placeholder="Search for a word" v-model="keyword" >
+                    <svg class="search" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="grey" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                    </svg>
+                </div>
+            </form>
+            <div  id="response" v-if="response">
+                <h2 id="word">
+                    {{word}}  
+                    <svg xmlns="http://www.w3.org/2000/svg" id="speaker" width="50" height="50" fill="currentColor" class="bi bi-volume-up" viewBox="0 0 16 16">
+                        <path d="M11.536 14.01A8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707A7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z"/>
+                        <path d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.483 5.483 0 0 1 11.025 8a5.483 5.483 0 0 1-1.61 3.89l.706.706z"/>
+                        <path d="M10.025 8a4.486 4.486 0 0 1-1.318 3.182L8 10.475A3.489 3.489 0 0 0 9.025 8c0-.966-.392-1.841-1.025-2.475l.707-.707A4.486 4.486 0 0 1 10.025 8zM7 4a.5.5 0 0 0-.812-.39L3.825 5.5H1.5A.5.5 0 0 0 1 6v4a.5.5 0 0 0 .5.5h2.325l2.363 1.89A.5.5 0 0 0 7 12V4zM4.312 6.39 6 5.04v5.92L4.312 9.61A.5.5 0 0 0 4 9.5H2v-3h2a.5.5 0 0 0 .312-.11z"/>
+                    </svg>
+                </h2>
+                <div>
+                    <strong>Phonetic: </strong>  <em>{{phonetic}}</em></em>
+                </div>
+                <div>
+                    <strong>Part of Speech: </strong>  <em>{{meanings[0].partOfSpeech}}</em>
+                </div>
+                <p> <strong>Meaning: </strong> {{meanings[0].definitions[0].definition}}</p>
+                <ul>
+                    <li v-for="(meaning,index) in meanings" :key="index" class="meaning">
+                        <div>
+                            <strong>Part of Speech: </strong>  <em>{{meaning.partOfSpeech}}</em>
+                        </div>
+                        <ul type="1">
+                            <li v-for="(item, index) in meaning.definitions" class="definition" :key="index">
+                                <div>
+                                    <strong>Definition: </strong>
+                                    {{item.definition}}
+                                </div>
+                                <div v-if="item.synonym ">
+                                    <strong>Synonym: </strong>
+                                    {{item.synonym}}
+                                </div>
+                                <div v-if="item.antonym">
+                                    <strong>Antonym: </strong>
+                                    {{item.antonym }}
+                                </div>
+                                <div v-if="item.example">
+                                    <strong>Example: </strong> {{item.example }}
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
         <span class="error" v-if="hasError">
-            {{errorMessage}}
+        {{errorMessage}}
         </span>
-
-        <div class="lds-roller" v-if="loading" ><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-    </div>
-    <script src="https://unpkg.com/vue@3"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="app.js"></script>
-</body>
+        <div class="lds-roller" v-if="loading" >
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        </div>
+        <script src="https://unpkg.com/vue@3"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="app.js"></script>
+    </body>
 </html>
