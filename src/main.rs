@@ -12,7 +12,7 @@ use axum::{
     extract::Json as Request,
     http::StatusCode,
     response::{Html, IntoResponse},
-    routing::{get, get_service, post},
+    routing::{get_service, post},
     Json, Router,
 };
 use serde::{Deserialize, Serialize};
@@ -99,7 +99,7 @@ async fn search(Request(request): Request<ApiRequest>) -> impl IntoResponse {
 
 //the index route
 // Include utf-8 file at **compile** time.
-async fn index() -> Html<&'static str> {
+async fn _index() -> Html<&'static str> {
     Html(std::include_str!("../views/index.html"))
 }
 
@@ -130,15 +130,3 @@ async fn main() {
         .await
         .unwrap();
 }
-
-// font-family: 'Fira Sans', sans-serif;
-
-// font-family: 'Mulish', sans-serif;
-
-// font-family: 'Nunito', sans-serif;
-
-// font-family: 'Open Sans', sans-serif;
-
-// font-family: 'Poppins', sans-serif;
-
-// font-family: 'Raleway', sans-serif;

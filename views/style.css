@@ -14,21 +14,13 @@ body {
 }
 
 #app {
-    width: 80%;
-    margin: 20px auto;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-#app>* {
-    width: 80%;
-    display: flex;
-    flex-direction: column;
+    width: 75vw;
+    max-width: 75%;
     margin: 0 auto;
-    justify-content: center;
-    align-items: center;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+
 }
 
 #app h1,
@@ -45,15 +37,20 @@ body {
     margin-bottom: 35px;
 }
 
-form .form-group {
-    display: grid;
-    grid-template-columns: 3fr 1fr;
-    align-items: center;
-    border: 1px solid #101010;
-    border-radius: 5px;
-    transition: all 250ms ease-in-out;
-    width: 50%;
+#app form {
+    text-align: center;
+}
 
+form .form-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 250ms ease-in-out;
+    position: relative;
+    border: 1px solid #101010;
+    padding: 5px 12px;
+    border-radius: 5px;
+    /* width: 50%; */
 }
 
 form input,
@@ -65,17 +62,17 @@ form button {
 }
 
 form input {
-    border-radius: 5px 0 0 5px;
+    border-radius: 5px;
     border-style: 2px solid transparent;
-    border-right: 2px solid #660066;
+    border-radius: none;
 }
 
-form button {
-    border-radius: 0 5px 5px 0;
-    background-color: #660066;
-    color: #f2f2f2;
-    cursor: pointer;
+form svg {
+    position: absolute;
+    right: 10px;
+    display: block;
 }
+
 
 form input:focus,
 form button:focus {
@@ -216,10 +213,15 @@ form input ::placeholder {
     padding: 7.5px;
     border-radius: 50%;
     border: 2px solid #101010;
+    display: inline-block;
+    margin-left: 5px;
 }
 
 #response #word {
     display: inline-flex;
     align-items: center;
-    column-gap: 7.5px;
+}
+
+#response p {
+    max-width: 69%;
 }

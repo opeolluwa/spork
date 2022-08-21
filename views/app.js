@@ -44,8 +44,8 @@ createApp({
         phonetic() {
             return this.response.phonetic;
         },
-        meaning() {
-            return this.response.meaning[0];
+        meanings() {
+            return this.response.meanings;
         },
         definitions() {
             return this.response.meaning.definitions

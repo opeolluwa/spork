@@ -18,7 +18,9 @@
         <form  @submit.prevent="search">
            <div class="form-group">
             <input type="text" name="word" placeholder="Search for a word" v-model="keyword" >
-            <button type="submit" :disabled="loading" >Search</button>
+            <svg class="search" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="grey" class="bi bi-search" viewBox="0 0 16 16">
+              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+            </svg>
            </div>
         </form>
         <div  id="response" v-if="response">
@@ -27,8 +29,9 @@
                 <path d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.483 5.483 0 0 1 11.025 8a5.483 5.483 0 0 1-1.61 3.89l.706.706z"/>
                 <path d="M10.025 8a4.486 4.486 0 0 1-1.318 3.182L8 10.475A3.489 3.489 0 0 0 9.025 8c0-.966-.392-1.841-1.025-2.475l.707-.707A4.486 4.486 0 0 1 10.025 8zM7 4a.5.5 0 0 0-.812-.39L3.825 5.5H1.5A.5.5 0 0 0 1 6v4a.5.5 0 0 0 .5.5h2.325l2.363 1.89A.5.5 0 0 0 7 12V4zM4.312 6.39 6 5.04v5.92L4.312 9.61A.5.5 0 0 0 4 9.5H2v-3h2a.5.5 0 0 0 .312-.11z"/>
               </svg></h2>
-              <p>/eɪd͡ʒ/"</p>
-              <p>{{}}</p>
+              <em style="display: block;">{{phonetic}}</em>
+              <p>{{meanings[0].definitions[0].definition}}</p>
+             
         </div>
         <span class="error" v-if="hasError">
             {{errorMessage}}
