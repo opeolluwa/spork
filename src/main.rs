@@ -86,7 +86,6 @@ async fn search(Request(request): Request<ApiRequest>) -> impl IntoResponse {
     let body = reqwest::get(format!("{}/{}/{}", &DICTIONARY_API, "en", keyword))
         .await
         .unwrap();
-println!("{}", &keyword);
     //error handling
     let data = match body.json::<Vec<DictionaryApiResponse>>().await {
         Ok(val) => Some(val),
