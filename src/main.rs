@@ -126,9 +126,9 @@ async fn main() {
        let port = std::env::var("PORT")
         .ok()
         .and_then(|s| s.parse().ok())
-        .unwrap_or(3456);
+        .unwrap_or(8080);
 
-    let ip_address = SocketAddr::from(([0, 0, 0, 0], port));
+    let ip_address = SocketAddr::from(([127, 0, 0, 1], port));
     println!("Ignition started on http://{}", ip_address);
     axum::Server::bind(&ip_address)
         .serve(app.into_make_service())
